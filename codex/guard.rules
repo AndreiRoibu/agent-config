@@ -1,0 +1,13 @@
+# Guard rules for Codex. install.sh copies this file to ~/.codex/rules/, next to
+# default.rules, because Codex ignores linked rule files. They back the Git rules
+# in AGENTS.md, so Codex asks before these commands even when a broader allow
+# rule would match.
+prefix_rule(pattern=["git", "push"], decision="prompt")
+prefix_rule(pattern=["git", "commit"], decision="prompt")
+prefix_rule(pattern=["git", "reset", "--hard"], decision="prompt")
+prefix_rule(pattern=["git", "clean"], decision="prompt")
+prefix_rule(pattern=["git", "rebase"], decision="prompt")
+prefix_rule(pattern=["gh", "pr", "create"], decision="prompt")
+prefix_rule(pattern=["gh", "pr", "merge"], decision="prompt")
+prefix_rule(pattern=["gh", "pr", "edit"], decision="prompt")
+prefix_rule(pattern=["gh", "release"], decision="prompt")

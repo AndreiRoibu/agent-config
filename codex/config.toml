@@ -1,0 +1,12 @@
+# Portable part of ~/.codex/config.toml. Project trust entries are machine- and
+# company-specific, so they stay only in the live file.
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+personality = "pragmatic"
+service_tier = "default"
+
+[features]
+multi_agent = true
+
+[plugins."github@openai-curated"]
+enabled = true
