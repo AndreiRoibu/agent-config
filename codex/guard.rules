@@ -11,3 +11,8 @@ prefix_rule(pattern=["gh", "pr", "create"], decision="prompt")
 prefix_rule(pattern=["gh", "pr", "merge"], decision="prompt")
 prefix_rule(pattern=["gh", "pr", "edit"], decision="prompt")
 prefix_rule(pattern=["gh", "release"], decision="prompt")
+# These discard uncommitted work, which git cannot recover.
+prefix_rule(pattern=["git", "checkout", "--"], decision="prompt")
+prefix_rule(pattern=["git", "restore"], decision="prompt")
+prefix_rule(pattern=["git", "stash", "drop"], decision="prompt")
+prefix_rule(pattern=["git", "stash", "clear"], decision="prompt")

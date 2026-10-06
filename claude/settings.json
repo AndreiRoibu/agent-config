@@ -10,7 +10,11 @@
       "Bash(gh pr create *)",
       "Bash(gh pr merge *)",
       "Bash(gh pr edit *)",
-      "Bash(gh release *)"
+      "Bash(gh release *)",
+      "Bash(git checkout -- *)",
+      "Bash(git restore *)",
+      "Bash(git stash drop *)",
+      "Bash(git stash clear *)"
     ],
     "deny": [
       "Read(**/.env)",
