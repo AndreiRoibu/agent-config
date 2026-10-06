@@ -12,6 +12,13 @@
 set -euo pipefail
 shopt -s nullglob
 
+# Checked first, before any other tool runs. The hooks read their input with
+# jq, and without it the safety hook silently lets every command through.
+if ! command -v jq >/dev/null 2>&1; then
+  echo "error: install jq first, because the Claude Code hooks need it (without it the safety hook allows every command)" >&2
+  exit 1
+fi
+
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 expected="$(cd "$HOME" && pwd -P)/agent-config"
 if [ "$repo" != "$expected" ]; then

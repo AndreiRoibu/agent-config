@@ -80,6 +80,15 @@ out="$(install_in "$home")"
 check "skips Codex when ~/.codex is missing" [ ! -e "$home/.codex" ]
 check "says Codex was skipped" grep -q "skipped Codex" <<<"$out"
 
+# Missing jq: the hooks need it, and the safety hook silently allows every
+# command without it, so refuse before touching anything.
+home="$(new_home .claude .codex)"
+err="$(HOME="$home" PATH=/nonexistent "$BASH" "$home/agent-config/install.sh" 2>&1 >/dev/null)"
+status=$?
+check "refuses to run without jq" [ "$status" -ne 0 ]
+check "says jq is missing" grep -q "install jq first" <<<"$err"
+check "installs nothing without jq" [ ! -e "$home/.claude/CLAUDE.md" ]
+
 # Wrong location: CLAUDE.md imports ~/agent-config/AGENTS.md, so refuse.
 home="$(new_home .claude .codex)"
 mv "$home/agent-config" "$home/elsewhere"
