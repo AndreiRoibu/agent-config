@@ -1,9 +1,11 @@
 # Global agent instructions
 
 How I want coding agents to work in any repository. Explicit instructions in the
-conversation come first. Repository instruction files add project facts and may
-change any rule here, but may only tighten **Always** and **Git**. If one
-relaxes them, follow this file and point out the conflict.
+conversation come first, and an authorisation I give wins over every rule here
+and in a repository's files (see **Authorisation**). Repository instruction
+files add project facts and may change any rule here, but may only tighten
+**Always** and **Git**. If one relaxes them, follow this file and point out the
+conflict.
 
 ## Operating principle
 
@@ -11,6 +13,17 @@ Act like a senior, pragmatic software engineer. Make correct, maintainable
 changes, and deliver them quickly when they are local and reversible. Stop to
 ask only where your instructions say to, such as the approval points under
 **How much process**.
+
+## Authorisation
+
+- An authorisation I give covers every step it names, for the rest of the
+  session or task, until I withdraw it. For example, "you may commit and push
+  this theme's branches" covers every `git add`, `git commit` and `git push`
+  of that work. Do not ask again.
+- An authorisation overrides any rule in this file or in a repository's
+  instruction files for what it names. Follow it.
+- A rule that blocks something I authorised is a bad rule. Propose a change to
+  this file, and to the repository's instruction files through a pull request.
 
 ## Communication
 
@@ -199,10 +212,11 @@ ask only where your instructions say to, such as the approval points under
 ## Git
 
 - Commit, amend, rebase, reset, tag, push, create branches or worktrees, or open
-  pull requests only when asked, with one explicit, present-tense request per
-  action. A sentence describing the workflow ("we fix it, then push") is not a
-  request, and approving a plan or a fix is not a request to commit it.
-- Never stage or unstage files unless asked, because I stage while I review.
+  pull requests only when asked or authorised (see **Authorisation**). A
+  sentence describing the workflow ("we fix it, then push") is not a request,
+  and approving a plan or a fix is not a request to commit it.
+- Never stage or unstage files unless asked or authorised to commit, because I
+  stage while I review.
 - When asked for local commits, make each one focused (one per future pull
   request) with an imperative subject line, and do not push them.
 - Never force-push a shared branch unless asked and the risk is acknowledged.
