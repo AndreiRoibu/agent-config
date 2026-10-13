@@ -2,12 +2,8 @@
   "permissions": {
     "defaultMode": "auto",
     "ask": [
-      "Bash(git push *)",
-      "Bash(git commit *)",
       "Bash(git reset --hard *)",
       "Bash(git clean *)",
-      "Bash(git rebase *)",
-      "Bash(gh pr create *)",
       "Bash(gh pr merge *)",
       "Bash(gh pr edit *)",
       "Bash(gh release *)",
