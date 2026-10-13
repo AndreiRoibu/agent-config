@@ -151,16 +151,18 @@ ask only where your instructions say to, such as the approval points under
   conversation.
   - At most 20 words in a sentence that gives a step, and 25 in any other.
   - At most six sentences in a paragraph, all on one topic.
-  - One instruction per sentence, in the imperative, with any condition first
-    ("If the run has finished, press Reset").
-  - A warning starts with the command or the condition, then the reason. A note
-    gives information, never an instruction.
+  - One instruction per sentence, in the imperative. In a step, put a condition
+    the reader must know first before the instruction ("If the run has
+    finished, press Reset").
+  - A warning starts with the command or the condition, then gives the risk or
+    the possible result. A note gives information, never an instruction.
   - No noun strings over three words, and no "-ing" verb forms outside
     technical names.
   - One name per thing, used the same way everywhere.
   - Prefer make sure, can, must, do, before, use, through, let, show, and
     these to ensure, may, should, perform, prior to, utilise, via, enable or
-    allow, display, and following.
+    allow, display, and following. Write a recommendation as "we recommend",
+    so must stays for requirements.
 - Agent instruction files (`AGENTS.md`, `CLAUDE.md`) are rule files, not
   Diátaxis documents. Use as few files and lines as possible, state each rule
   once with the rule first and the reason after, and write procedures as
