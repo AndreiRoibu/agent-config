@@ -143,6 +143,23 @@ ask only where your instructions say to, such as the approval points under
   Diátaxis-style sections rather than mixing goals, steps, concepts, and
   reference. Internal-only changes need docstrings and tests, not external
   documentation.
+- Write documentation, docstrings, UI text, and commit and pull request bodies
+  to these limits from the ASD-STE100 Simplified Technical English writing
+  rules (Issue 9, https://www.asd-ste100.org/), with UK spelling. Replies
+  follow **Communication** instead, because these rules suit procedures, not
+  conversation.
+  - At most 20 words in a sentence that gives a step, and 25 in any other.
+  - At most six sentences in a paragraph, all on one topic.
+  - One instruction per sentence, in the imperative, with any condition first
+    ("If the run has finished, press Reset").
+  - A warning starts with the command or the condition, then the reason. A note
+    gives information, never an instruction.
+  - No noun strings over three words, and no "-ing" verb forms outside
+    technical names.
+  - One name per thing, used the same way everywhere.
+  - Prefer make sure, can, must, do, before, use, through, let, show, and
+    these to ensure, may, should, perform, prior to, utilise, via, enable or
+    allow, display, and following.
 - Agent instruction files (`AGENTS.md`, `CLAUDE.md`) are rule files, not
   Diátaxis documents. Use as few files and lines as possible, state each rule
   once with the rule first and the reason after, and write procedures as
