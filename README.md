@@ -159,9 +159,13 @@ are not already ruff-formatted it adds unrelated formatting changes to the diff.
   `AGENTS.md`, so one file serves every tool.
 - **The instruction files hold rules only.** They are loaded into every
   session, so the reasoning lives here instead.
-- **Git commands ask first in both tools.** `claude/settings.json` lists them
-  under `ask` and `codex/guard.rules` marks them `prompt`, which backs the
-  **Git** rules in `AGENTS.md`. The rules in `AGENTS.md` are requests the model
-  usually follows, while these lists are enforced by the tool itself.
+- **Git commands that are hard to undo ask first in both tools.**
+  `claude/settings.json` lists them under `ask` and `codex/guard.rules` marks
+  them `prompt`. They discard uncommitted work, merge or edit a pull request,
+  or publish a release. Commits, pushes, rebases and new pull requests are left
+  to the **Git** and **Authorisation** rules in `AGENTS.md`, because a tool
+  prompt cannot see an authorisation and would ask again after one. The rules
+  in `AGENTS.md` are requests the model usually follows, while these lists are
+  enforced by the tool itself.
 - **`routines.md` repeats some rules on purpose.** Scheduled routines run in
   the cloud and cannot see `~/.claude`, so they need their own copy.
