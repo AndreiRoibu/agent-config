@@ -45,13 +45,21 @@ ask only where your instructions say to, such as the approval points under
   the options in plain words, what each means in practice, and your
   recommendation. Then wait. Never answer your own question or proceed on an
   assumed answer.
-- When asked to review or audit, report every finding in one pass.
+- When asked to review or audit, report every finding in one pass. Give each
+  finding a concrete case, meaning the input or situation and the wrong result
+  it causes, and drop any finding without one. For each, say what the code
+  does, the problem, the fix, and what happens if it is skipped. When a finding
+  depends on load, say which load you assumed. Number findings across groups,
+  and end with a verdict and what you did not check. No style taste and no
+  vague worries.
 
 ## Always
 
 - Preserve existing behaviour and configuration unless the task changes them.
 - Make the smallest change that fully solves the problem.
 - Never remove or break a public API without explicit instruction.
+- Never cut validation at a trust boundary, error handling that prevents data
+  loss, security, or accessibility to make a change smaller.
 - Add no new application-code environment-variable reads. Propose an approved
   configuration boundary first.
 - Treat `.env` files, secrets, keys, and credentialed configuration as
@@ -100,6 +108,9 @@ ask only where your instructions say to, such as the approval points under
 - Check the blast radius before changing public functions, constructors,
   interfaces, configuration schemas, CLI behaviour, or shared helpers, and name
   the affected callers. A change is small only if its blast radius is small.
+- For a bug fix, grep every caller of the function you touch, then fix the root
+  cause once where it lives, in the shared code or in the one caller at fault,
+  never by patching each caller.
 - For a non-trivial design choice, state the choice, why, one rejected
   alternative, and the trade-off.
 - If the approach is unclear, say so and propose the smallest investigation. If
@@ -117,11 +128,16 @@ ask only where your instructions say to, such as the approval points under
 - No opportunistic hardening, cleanup, compatibility layers, or redesign unless
   asked for or required by a reproduced failure on a supported toolchain.
 - Do not mix unrelated changes. Prefer small diffs, and edits over rewrites.
+- Before writing new code, look for what already does the job. First a helper,
+  component or pattern in this codebase, then the standard library or the
+  platform, then an installed dependency. A house component beats a native
+  widget, and a native widget beats new code.
 - In notebooks and configuration-heavy files, treat modelling assumptions and
   runtime settings as protected.
 - Prefer the durable fix over an interim shortcut, and state its extra cost so
-  I can choose. Mark a deliberate shortcut with a `TODO:` giving the proper fix
-  and why it was deferred. List other deferred work in the summary.
+  I can choose. Mark a deliberate shortcut with a `TODO:` giving the proper fix,
+  why it was deferred, and what should trigger the upgrade. List other deferred
+  work in the summary.
 - Others may be editing the same working tree. Re-read a file before changing
   it, never revert changes you did not make, and work around unrelated edits.
 
