@@ -10,8 +10,9 @@ macOS should work but has not been tried.
 ## Quick start on a new machine
 
 1. Install `git`, `bash` and `jq` (`sudo apt install jq` or `brew install jq`).
-   The hooks need `jq`, and without it the safety hook lets every command
-   through, so `install.sh` refuses to run until it is there.
+   The hooks need `jq`. Without it the safety hook lets every command
+   through, so `install.sh` refuses to run until it is there. `python3` is
+   needed only by the Markdown check, which is skipped without it.
 2. Give the account you will clone with access to this private repository. At
    a new job, follow [Start a new job](#start-a-new-job) first.
 3. Run Claude Code and Codex once each, so that `~/.claude` and `~/.codex`
@@ -56,10 +57,12 @@ macOS should work but has not been tried.
 ### Change a rule
 
 1. Edit the file here. Linked files take effect in the next session.
-2. Run `./install.sh` again if you edited `codex/guard.rules`, because Codex
-   needs a copy of that file.
-3. Run `./tests/test_install.sh` if you changed `install.sh`. It uses
-   throwaway home folders and never touches the real ones.
+2. Run `./install.sh` again if you edited `codex/guard.rules` or
+   `codex/hooks.json`, because Codex needs copies of those files. After a
+   change to a hook script, trust it again with `/hooks` in the Codex CLI.
+3. Run `./tests/test_install.sh` if you changed `install.sh`, and
+   `./tests/test_prose_check.sh` if you changed the Markdown check. Both use
+   throwaway folders and never touch the real ones.
 4. Commit and push.
 
 ### Update another machine
@@ -68,13 +71,16 @@ macOS should work but has not been tried.
 cd ~/agent-config && git pull && ./install.sh
 ```
 
+If `claude/settings.json` changed, apply the template again, because
+`install.sh` never writes settings files.
+
 ### Apply the settings templates
 
 Claude Code and Codex write to their settings files themselves, so those stay
 plain files on each machine and the copies here are templates.
 
 For Claude Code, run this from `~/agent-config`. It keeps the machine's extra
-folders, takes everything else from the template, saves the old file as
+folders and takes everything else from the template. It saves the old file as
 `settings.json.bak`, and also works when the machine has no settings file yet.
 It replaces the machine's list of always-allowed commands, so expect a few
 permission prompts at first.
@@ -129,18 +135,21 @@ To remove the setup completely, delete every link and copy listed in
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` | link, imports `AGENTS.md` from here |
 | `claude/hooks/*.sh` | `~/.claude/hooks/` | one link per file |
 | `codex/guard.rules` | `~/.codex/rules/guard.rules` | copy |
+| `codex/hooks.json` | `~/.codex/hooks.json` | copy, runs `prose-check.sh` after Codex's `apply_patch` |
 | `claude/settings.json` | `~/.claude/settings.json` | template |
 | `codex/config.toml` | `~/.codex/config.toml` | template |
 | `routines.md` | none | paste into scheduled routines |
 
 ### Claude Code hooks
 
-All three run in every repository, and all three need `jq`.
+All four run in every repository. Three need `jq`, and the Markdown check
+needs `python3`.
 
 | Hook | When | What it does |
 | --- | --- | --- |
 | `block-catastrophic-bash.sh` | Before every shell command | Blocks only catastrophic commands (`rm -rf /` or `~`, system directories, `mkfs`, `dd` to a device, fork bomb). Everything else passes. |
 | `ruff-format.sh` | After every file edit | Runs `ruff check --fix` and `ruff format` on an edited Python file, using the repository's own `.venv` ruff when present. |
+| `prose-check.sh` | After a Markdown edit through `Edit`, `Write` or Codex's `apply_patch` | Checks the edited `.md` file against the writing rules a script can check (no semicolons or clause-joining dashes, at most 25 words in a sentence and 20 in a numbered step, at most six sentences in a paragraph) and feeds the findings back to the agent. An edit reports only the blocks it touched. Skips rule files, files outside a git repository and files under `.claude/`. Edits made with shell commands are not checked. Codex runs it once you trust it with `/hooks` in its CLI. |
 | `stop-checks.sh` | When a turn ends | Runs `<repo>/.claude/checks.sh` if the repository provides one, and is silent otherwise. |
 
 `ruff-format.sh` reformats the whole edited file, so in a repository whose files
@@ -163,9 +172,9 @@ are not already ruff-formatted it adds unrelated formatting changes to the diff.
   `claude/settings.json` lists them under `ask` and `codex/guard.rules` marks
   them `prompt`. They discard uncommitted work, merge or edit a pull request,
   or publish a release. Commits, pushes, rebases and new pull requests are left
-  to the **Git** and **Authorisation** rules in `AGENTS.md`, because a tool
-  prompt cannot see an authorisation and would ask again after one. The rules
-  in `AGENTS.md` are requests the model usually follows, while these lists are
+  to the **Git** and **Authorisation** rules in `AGENTS.md`. A tool prompt
+  cannot see an authorisation and would ask again after one. The rules in
+  `AGENTS.md` are requests the model usually follows, while these lists are
   enforced by the tool itself.
 - **`routines.md` repeats some rules on purpose.** Scheduled routines run in
   the cloud and cannot see `~/.claude`, so they need their own copy.

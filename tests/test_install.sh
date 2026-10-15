@@ -50,6 +50,7 @@ check "links every hook" links_to "$home/.claude/hooks/stop-checks.sh" "$repo/cl
 check "links Codex AGENTS.md" links_to "$home/.codex/AGENTS.md" "$repo/AGENTS.md"
 check "copies guard.rules, because Codex skips linked rule files" \
   plain_copy_of "$home/.codex/rules/guard.rules" "$repo/codex/guard.rules"
+check "copies hooks.json for Codex" plain_copy_of "$home/.codex/hooks.json" "$repo/codex/hooks.json"
 check "makes no backup when nothing was in the way" no_backup "$home"
 
 # Correct state: a second run changes nothing and says nothing.

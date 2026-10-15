@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/agent-config/claude/hooks/prose-check.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

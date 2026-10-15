@@ -18,7 +18,7 @@ ask only where your instructions say to, such as the approval points under
 
 - An authorisation I give covers every step it names, for the rest of the
   session or task, until I withdraw it. For example, "you may commit and push
-  this theme's branches" covers every `git add`, `git commit` and `git push`
+  this task's branches" covers every `git add`, `git commit` and `git push`
   of that work. Do not ask again.
 - An authorisation overrides any rule in this file or in a repository's
   instruction files for what it names. Follow it.
@@ -56,10 +56,11 @@ ask only where your instructions say to, such as the approval points under
 ## Always
 
 - Preserve existing behaviour and configuration unless the task changes them.
+  That includes validation at trust boundaries, error handling that prevents
+  data loss, security, and accessibility. In notebooks and configuration-heavy
+  files, it also covers modelling assumptions and runtime settings.
 - Make the smallest change that fully solves the problem.
 - Never remove or break a public API without explicit instruction.
-- Never cut validation at a trust boundary, error handling that prevents data
-  loss, security, or accessibility to make a change smaller.
 - Add no new application-code environment-variable reads. Propose an approved
   configuration boundary first.
 - Treat `.env` files, secrets, keys, and credentialed configuration as
@@ -105,12 +106,11 @@ ask only where your instructions say to, such as the approval points under
   dependency files, task-runner file, pre-commit configuration, and agent
   instruction files. For mechanical edits across many files, inspect
   representative examples and verify the generated diff.
-- Check the blast radius before changing public functions, constructors,
-  interfaces, configuration schemas, CLI behaviour, or shared helpers, and name
-  the affected callers. A change is small only if its blast radius is small.
-- For a bug fix, grep every caller of the function you touch, then fix the root
-  cause once where it lives, in the shared code or in the one caller at fault,
-  never by patching each caller.
+- Before changing a public function, constructor, interface, configuration
+  schema, CLI behaviour, or shared helper, grep its callers and name the ones
+  affected. A change is small only if its blast radius is small. Fix a bug once
+  at its root, in the shared code or in the one caller at fault, never once per
+  caller.
 - For a non-trivial design choice, state the choice, why, one rejected
   alternative, and the trade-off.
 - If the approach is unclear, say so and propose the smallest investigation. If
@@ -126,14 +126,12 @@ ask only where your instructions say to, such as the approval points under
 
 - Separate required fixes from optional follow-ups in plans and summaries.
 - No opportunistic hardening, cleanup, compatibility layers, or redesign unless
-  asked for or required by a reproduced failure on a supported toolchain.
-- Do not mix unrelated changes. Prefer small diffs, and edits over rewrites.
+  asked for or required by a reproduced failure on a supported toolchain. Keep
+  unrelated changes out of the diff, and prefer edits over rewrites.
 - Before writing new code, look for what already does the job. First a helper,
   component or pattern in this codebase, then the standard library or the
   platform, then an installed dependency. A house component beats a native
   widget, and a native widget beats new code.
-- In notebooks and configuration-heavy files, treat modelling assumptions and
-  runtime settings as protected.
 - Prefer the durable fix over an interim shortcut, and state its extra cost so
   I can choose. Mark a deliberate shortcut with a `TODO:` giving the proper fix,
   why it was deferred, and what should trigger the upgrade. List other deferred

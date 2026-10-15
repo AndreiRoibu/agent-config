@@ -2,9 +2,9 @@
 # Installs this repository's agent configuration into ~/.claude and ~/.codex.
 #
 # Rule files and hooks become links, so an edit here takes effect in the next
-# session. codex/guard.rules is copied instead, because Codex skips links when
-# it lists ~/.codex/rules/. settings.json and config.toml are left alone,
-# because the tools write to them (see README.md).
+# session. codex/guard.rules and codex/hooks.json are copied instead, because
+# Codex skips links when it lists ~/.codex/rules/. settings.json and
+# config.toml are left alone, because the tools write to them (see README.md).
 #
 # Safe to rerun. A correct link or an identical copy is left as it is. Anything
 # else in the way is moved to ~/.agent-config-backup/<time>/ first. A tool whose
@@ -76,6 +76,7 @@ fi
 if [ -d "$HOME/.codex" ]; then
   link AGENTS.md "$HOME/.codex/AGENTS.md"
   copy codex/guard.rules "$HOME/.codex/rules/guard.rules"
+  copy codex/hooks.json "$HOME/.codex/hooks.json"
 else
   echo "skipped Codex, because ~/.codex does not exist yet"
 fi
