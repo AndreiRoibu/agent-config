@@ -28,6 +28,11 @@
             "type": "command",
             "command": "bash $HOME/.claude/hooks/ruff-format.sh",
             "timeout": 60
+          },
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/prose-check.sh",
+            "timeout": 30
           }
         ]
       }
